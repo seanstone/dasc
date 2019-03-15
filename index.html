@@ -12,13 +12,13 @@ crossorigin="anonymous"></script>
 
 <body>
 
-    <div>
+    <h1>
         健身房 <span id="gym_on"></span> 人
-    </div>
+    </h1>
 
-    <div>
+    <h1>
         容留 <span id="gym_all"></span> 人
-    </div>
+    </h1>
 
     <script>
 
@@ -28,24 +28,30 @@ crossorigin="anonymous"></script>
         }
     });
 
-    $.ajax({
-        url: "https://dasc.cyc.org.tw/api",
-        type: "POST",
-        dataType: "json",
-        error: function(xhr){
-            console.log(xhr);
-        },
-        success: function(response){
+    function api(){
+        $.ajax({
+            url: "https://dasc.cyc.org.tw/api",
+            type: "POST",
+            dataType: "json",
+            error: function(xhr){
+                console.log(xhr);
+            },
+            success: function(response){
 
-            console.log(response);
-            if(response["gym"] && !(response["gym"][0].indexOf("找不到資源")!= -1))
-            {
-                $('#gym_on').html(response["gym"][0]);
-                $('#gym_all').html(response["gym"][1]);
-            }
-        },
-        timeout: 10000
-    });
+                console.log(response);
+                if(response["gym"] && !(response["gym"][0].indexOf("找不到資源")!= -1))
+                {
+                    $('#gym_on').html(response["gym"][0]);
+                    $('#gym_all').html(response["gym"][1]);
+                }
+            },
+            timeout: 10000
+        });
+    }
+
+    api();
+	setInterval(api, 5000);
+
     </script>
 
 </body>
