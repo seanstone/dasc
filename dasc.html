@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<script
+src="http://code.jquery.com/jquery-3.3.1.min.js"
+integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+    <div>
+        健身房 <span id="gym_on"></span> 人
+    </div>
+
+    <div>
+        容留 <span id="gym_all"></span> 人
+    </div>
+
+    <script>
+
+    jQuery.ajaxPrefilter(function(options) {
+        if (options.crossDomain && jQuery.support.cors) {
+            options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+        }
+    });
+
+    $.ajax({
+        url: "https://dasc.cyc.org.tw/api",
+        type: "POST",
+        dataType: "json",
+        error: function(xhr){
+            console.log(xhr);
+        },
+        success: function(response){
+
+            console.log(response);
+            if(response["gym"] && !(response["gym"][0].indexOf("找不到資源")!= -1))
+            {
+                $('#gym_on').html(response["gym"][0]);
+                $('#gym_all').html(response["gym"][1]);
+            }
+        },
+        timeout: 10000
+    });
+    </script>
+
+</body>
+
+</html>
